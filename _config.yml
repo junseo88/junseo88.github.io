@@ -114,8 +114,8 @@ analytics:
 # Site Author
 author:
   name             : "Junseo Bang"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Ph.D student ICL @ ECE, SNU"
+  avatar           : "/assets/images/junseo.jpeg"
+  bio              : "Ph.D student @ ECE, SNU"
   location         : "Seoul, South Korea"
   email            :
   links:
