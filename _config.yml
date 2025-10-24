@@ -114,7 +114,7 @@ analytics:
 # Site Author
 author:
   name             : "Junseo Bang"
-  avatar           : "/assets/images/junseo.jpeg"
+  avatar           : "/assets/junseo.jpeg"
   bio              : "Ph.D student @ ECE, SNU"
   location         : "Seoul, South Korea"
   email            :
