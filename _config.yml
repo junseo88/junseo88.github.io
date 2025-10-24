@@ -113,15 +113,15 @@ analytics:
 
 # Site Author
 author:
-  name             : "Your Name"
+  name             : "Junseo Bang"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am an **amazing** person."
-  location         : "Somewhere"
+  bio              : "Ph.D student ICL @ ECE, SNU"
+  location         : "Seoul, South Korea"
   email            :
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      # url: "mailto:your.name@email.com"
+      url: "qkdwnstj10@snu.ac.kr"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
@@ -133,10 +133,16 @@ author:
       # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url: "https://github.com/"
+      url: "https://github.com/junseo88"
+    - label: "Google scholar"
+      icon: "fas fa-fw fa-graduation-cap"
+      url: "https://scholar.google.com/scholar?hl=ko&as_sdt=0%2C5&q=junseo+bang&btnG="
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      # url: "https://www.linkedin.com/in/wongi-jeong-2b424b25a/"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
-      # url: "https://instagram.com/"
+      url: "https://instagram.com/qkdwnstj10"
 
 # Site Footer
 footer:
