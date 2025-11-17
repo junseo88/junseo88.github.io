@@ -34,6 +34,79 @@
                         <div class="col-sm-2 preview">
                           <figure>
                             <picture>
+                              <source class="responsive-img-srcset"
+                                      media="(max-width: 480px)"
+                                      srcset="/assets/img/publication_preview/Janus-480.webp">
+                              </source>
+                              <source class="responsive-img-srcset"
+                                      media="(max-width: 600px)"
+                                      srcset="/assets/img/publication_preview/Janus-600.webp">
+                              </source>
+                              <source class="responsive-img-srcset"
+                                      media="(max-width: 1400px)"
+                                      srcset="/assets/img/publication_preview/Janus-1400.webp">
+                              </source>
+        
+                              <img src="/assets/img/publication_preview/Janus.jpg"
+                                   class="preview z-depth-1 rounded"
+                                   width="auto"
+                                   height="auto"
+                                   alt="Janus.jpg"
+                                   data-zoomable=""
+                                   onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+                            </picture>
+                          </figure>
+                        </div>
+        
+                        <div id="bang2025Janus" class="col-sm-8">
+                          <div class="title">
+                            Cascaded Janus Meta-Optics: Generalized Platform for Bidirectional Asymmetric Modulation of Light
+                          </div>
+        
+                          <div class="author">
+                            <em>Junseo Bang</em>,&nbsp;
+                            Youngjin Kim,&nbsp;
+                            Taewon Choi,&nbsp;
+                            Changhyun Kim,&nbsp;
+                            Hyunwoo Son,
+                            and
+                            <span class="more-authors"
+                                  title="click to view 3 more authors"
+                                  onclick="
+                                    var element=$(this);
+                                    element.attr('title', '');
+                                    var more_authors_text =
+                                      element.text() == '3 more authors'
+                                        ? 'Sun-Je Kim, Yoonchan Jeong, Byoungho Lee'
+                                        : '3 more authors';
+                                    var cursorPosition=0;
+                                    var textAdder=setInterval(function(){
+                                      element.text(more_authors_text.substring(0, cursorPosition + 1));
+                                      if (++cursorPosition == more_authors_text.length){
+                                        clearInterval(textAdder);
+                                      }
+                                    }, '10');
+                                  ">
+                              3 more authors
+                            </span>
+                          </div>
+        
+                          <div class="periodical">
+                            <span class="journal-name">ACS Photonics</span>, 2025
+                          </div>
+        
+                          <div class="periodical"></div>
+        
+                          <div class="links"></div>
+                        </div>
+                      </div>
+                    </li>
+                  
+                  <li>
+                      <div class="row">
+                        <div class="col-sm-2 preview">
+                          <figure>
+                            <picture>
                               <source
                                 class="responsive-img-srcset"
                                 media="(max-width: 480px)"
