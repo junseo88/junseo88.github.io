@@ -3,7 +3,7 @@ layout: page
 title: photos
 permalink: /photos/
 description: A collection of moments — research, travel, and everyday life.
-nav: true
+nav: false
 nav_order: 4
 ---
 
