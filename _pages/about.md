@@ -42,6 +42,6 @@ advanced imaging systems with nanophotonic/metasurface technologies (advisors: P
 [Optical Engineering and Quantum Electronics Lab](http://oeqelab.snu.ac.kr/)).
 
 <p style="margin-top: 1.2rem; padding-left: 12px; border-left: 3px solid #888; font-size: 1.03rem;">
-💡 Research interest: close the gap between optical system design and learned signal reconstruction,
+💡 Research interest: closing the gap between optical system design and learned signal reconstruction,
 developing next-generation intelligent imaging systems that integrate physics and machine intelligence.
 </p>
