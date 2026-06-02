@@ -23,3 +23,212 @@ $max-content-width: {{ site.max_width }};
   "tabler-icons/tabler-icons-filled.scss",
   "tabler-icons/tabler-icons-outline.scss"
 ;
+
+/* ---- Custom homepage tweaks ---- */
+// Blue accent + bold for the "Recent News" / "Publications" section headings on the home page
+.home-section-heading {
+  font-weight: 700;
+}
+.home-section-heading a {
+  color: #7b9fe0;
+  font-weight: 700;
+  &:hover {
+    color: #9bb6ec;
+    text-decoration: none;
+  }
+}
+
+// Taller news box on the home page so more items are visible at once
+.news .table-responsive.news-scroll {
+  max-height: 18rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+// Wider vertical gap between the Recent News and Publications sections
+.about-main .news {
+  margin-bottom: 3rem;
+}
+.about-main h2#publications.home-section-heading {
+  margin-top: 1.25rem;
+}
+// A little more vertical breathing room per news row
+.news table.table tr > th,
+.news table.table tr > td {
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+}
+
+// Prominent (but grey) year headers in the publications / selected-papers list
+.publications h2.bibliography {
+  color: #9aa0a6; // grey year label
+  font-size: 1.7rem;
+  font-weight: 700;
+  text-align: left;
+  border-top: none;
+  border-bottom: 2px solid #6a6e73; // grey underline
+  padding-top: 0;
+  padding-bottom: 0.3rem;
+  margin: 2rem 0 1.2rem;
+}
+
+// Publication entries: bold the author's own name, and slightly larger titles
+.publications {
+  .author .author-self {
+    font-weight: 700;
+    font-style: normal;
+  }
+  .title {
+    font-size: 1.18rem;
+  }
+  // Venue label (full name) above each figure — one step larger
+  .abbr abbr.badge {
+    font-size: 0.92rem;
+    padding: 0.35em 0.5em;
+    line-height: 1.25;
+    white-space: normal; // allow long names like "Science Advances" to wrap
+  }
+}
+
+// Footer is intentionally emptied (no copyright line) — hide the empty bar
+footer.fixed-bottom,
+footer.sticky-bottom {
+  display: none;
+}
+
+/* ===================== About: hero banner ===================== */
+// Prevent the 100vw hero from creating a horizontal scrollbar.
+// Applied to body (not html) so the sticky sidebar keeps working.
+body {
+  overflow-x: hidden;
+}
+
+.about-hero {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw); // full-bleed: break out of the centered container
+  margin-top: -3rem; // cancel the container's `mt-5` so the banner sits under the navbar
+  min-height: 40vh; // ~2/3 of the previous height
+  display: flex;
+  background-color: #15171a; // fallback while/if the image is missing
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.about-hero-overlay {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  // dark gradient so the title/text stay readable over any photo
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.6) 55%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+}
+
+.about-hero-inner {
+  width: 100%;
+  max-width: $max-content-width;
+  margin: 0 auto;
+  padding: 3rem 1.5rem; // tighter vertical padding for a shorter banner
+  color: #fff;
+}
+
+.about-hero-title {
+  font-size: 3rem;
+  line-height: 1.1;
+  margin-bottom: 0.6rem;
+  color: #fff;
+  font-weight: 700; // bold the full name (both first and last)
+}
+
+.about-hero-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.82);
+  margin-bottom: 1.25rem;
+}
+
+.about-hero-intro {
+  max-width: 760px;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.92);
+
+  p {
+    color: inherit;
+  }
+  a {
+    color: #9bb6ec;
+    &:hover {
+      color: #c2d2f4;
+    }
+  }
+}
+
+.about-hero-btn {
+  display: inline-block;
+  margin-top: 1.6rem;
+  padding: 0.45rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 2rem;
+  color: #fff;
+  background: transparent;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+/* ===================== About: two-column body ===================== */
+.about-body {
+  margin-top: 2.5rem;
+}
+
+.about-profile {
+  position: sticky;
+  top: 5rem;
+  text-align: center;
+
+  img {
+    max-width: 55%;
+    margin: 0 auto 1.1rem;
+  }
+
+  .more-info {
+    line-height: 1.55;
+    p {
+      margin-bottom: 0.2rem;
+    }
+  }
+
+  .about-social {
+    margin-top: 0.9rem;
+  }
+  .contact-icons {
+    font-size: 1.4rem;
+  }
+}
+
+// On small screens: stack profile on top, drop sticky + tighten the hero.
+@media (max-width: 991px) {
+  .about-profile {
+    position: static;
+    margin-bottom: 2.5rem;
+  }
+  .about-profile img {
+    max-width: 45%;
+  }
+  .about-hero-inner {
+    padding: 3rem 1.25rem;
+  }
+  .about-hero-title {
+    font-size: 2.2rem;
+  }
+}
