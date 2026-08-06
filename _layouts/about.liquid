@@ -1,95 +1,146 @@
 ---
 layout: default
 ---
-<div class="about">
-  <!-- ===================== Hero banner ===================== -->
-  <section
-    class="about-hero"
-    {% if page.hero_image %}
-      style="background-image: url('{{ page.hero_image | prepend: 'assets/img/' | relative_url }}');"
+<div class="landing">
+  <!-- ===================== Hero: biography ===================== -->
+  <section id="bio" class="landing-hero">
+    {% if page.hero_video %}
+      <video
+        class="landing-hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        {% if page.hero_poster %}poster="{{ page.hero_poster | relative_url }}"{% endif %}
+      >
+        <source src="{{ page.hero_video | relative_url }}" type="video/mp4">
+      </video>
     {% endif %}
-  >
-    <div class="about-hero-overlay">
-      <div class="about-hero-inner">
-        <h1 class="about-hero-title">
+    <div class="landing-hero-shade"></div>
+    <div class="landing-hero-inner">
+      <!-- Left: avatar / name / affiliations / socials -->
+      <div class="landing-profile">
+        {% if page.profile.image %}
+          <img
+            class="landing-avatar"
+            src="{{ page.profile.image | prepend: 'assets/img/' | relative_url }}"
+            alt="{{ site.first_name }} {{ site.last_name }}"
+            width="160"
+            height="160"
+          >
+        {% endif %}
+        <div class="landing-name">
           {% if site.title == 'blank' %}
-            <span class="font-weight-bold">{{ site.first_name }}</span> {{ site.middle_name }} {{ site.last_name }}
+            {{ site.first_name }} {{ site.middle_name }} {{ site.last_name }}
           {% else %}
             {{ site.title }}
           {% endif %}
-        </h1>
-        {% if page.subtitle %}
-          <p class="about-hero-subtitle">{{ page.subtitle }}</p>
+        </div>
+        {% if page.profile.role %}
+          <div class="landing-role">{{ page.profile.role }}</div>
         {% endif %}
-        <div class="about-hero-intro">{{ content }}</div>
-        {% if page.hero_button %}
-          <a href="{{ page.hero_button_link | default: '#publications' }}" class="btn about-hero-btn">
-            {{ page.hero_button }}
+        {% for affil in page.profile.affiliations %}
+          <div class="landing-affiliation">
+            {% if affil.url %}
+              <a href="{{ affil.url }}" target="_blank" rel="noopener">{{ affil.name }}</a>
+            {% else %}
+              {{ affil.name }}
+            {% endif %}
+          </div>
+        {% endfor %}
+        {% if page.social %}
+          <div class="landing-social contact-icons">{% include social.liquid %}</div>
+        {% endif %}
+      </div>
+
+      <!-- Right: about-me prose / CV button / interests & education -->
+      <div class="landing-bio">
+        <h2 class="landing-bio-heading">About Me</h2>
+        <div class="landing-bio-text">{{ content }}</div>
+        {% if page.cv_button %}
+          <a class="landing-cv-btn" href="{{ page.cv_button.url | relative_url }}" target="_blank" rel="noopener">
+            <i class="fa-solid fa-download"></i> {{ page.cv_button.text }}
           </a>
+        {% endif %}
+        {% if page.interests or page.education %}
+          <div class="landing-facts">
+            {% if page.interests %}
+              <div class="landing-facts-col">
+                <div class="landing-facts-heading">Interests</div>
+                <ul class="landing-interests">
+                  {% for interest in page.interests %}
+                    <li>{{ interest }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+            {% if page.education %}
+              <div class="landing-facts-col">
+                <div class="landing-facts-heading">Education</div>
+                <ul class="landing-education">
+                  {% for edu in page.education %}
+                    <li>
+                      <i class="fa-solid fa-graduation-cap"></i>
+                      <div>
+                        <div class="landing-edu-degree">{{ edu.degree }}</div>
+                        <div class="landing-edu-detail">{{ edu.institution }}{% if edu.year %} · {{ edu.year }}{% endif %}</div>
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          </div>
         {% endif %}
       </div>
     </div>
   </section>
 
-  <!-- ===================== Two-column body ===================== -->
-  <div class="row about-body">
-    <!-- Left: sticky profile sidebar -->
-    {% if page.profile %}
-      <div class="col-lg-3 about-sidebar">
-        <div class="about-profile">
-          {% if page.profile.image %}
-            {% assign profile_image_path = page.profile.image | prepend: 'assets/img/' %}
-            {% if page.profile.image_circular %}
-              {% assign profile_image_class = 'img-fluid z-depth-1 rounded-circle' %}
-            {% else %}
-              {% assign profile_image_class = 'img-fluid z-depth-1 rounded' %}
-            {% endif %}
-            {%
-              include figure.liquid loading="eager" path=profile_image_path class=profile_image_class
-              alt=page.profile.image cache_bust=true
-            %}
+  <!-- ===================== News ===================== -->
+  {% if page.announcements and page.announcements.enabled %}
+    <section id="news" class="landing-section">
+      <h2 class="landing-section-title">News</h2>
+      {% if site.news != blank %}
+        <div class="news-cards">
+          {% assign news = site.news | reverse %}
+          {% if page.announcements.limit %}
+            {% assign news_limit = page.announcements.limit %}
+          {% else %}
+            {% assign news_limit = site.news | size %}
           {% endif %}
-          {% if page.profile.more_info %}
-            <div class="more-info">{{ page.profile.more_info }}</div>
-          {% endif %}
-          {% if page.social %}
-            <div class="about-social">
-              <div class="contact-icons">{% include social.liquid %}</div>
+          {% for item in news limit: news_limit %}
+            <div class="news-card">
+              <div class="news-card-date">{{ item.date | date: '%b %d, %Y' }}</div>
+              <div class="news-card-body">
+                {% if item.inline %}
+                  {{ item.content | remove: '<p>' | remove: '</p>' | emojify }}
+                {% else %}
+                  <a class="news-title" href="{{ item.url | relative_url }}">{{ item.title }}</a>
+                {% endif %}
+              </div>
             </div>
-          {% endif %}
+          {% endfor %}
         </div>
-      </div>
-    {% endif %}
-
-    <!-- Right: news + publications -->
-    <div class="col-lg-9 about-main">
-      <!-- News -->
-      {% if page.announcements and page.announcements.enabled %}
-        <h2 class="home-section-heading">
-          <a href="{{ '/news/' | relative_url }}">Recent News</a>
-        </h2>
-        {% include news.liquid limit=true %}
+        {% assign news_size = site.news | size %}
+        {% if page.announcements.limit and news_size > page.announcements.limit %}
+          <div class="landing-section-more">
+            <a href="{{ '/news/' | relative_url }}">All news &rarr;</a>
+          </div>
+        {% endif %}
+      {% else %}
+        <p class="text-center">No news so far...</p>
       {% endif %}
+    </section>
+  {% endif %}
 
-      <!-- Latest posts -->
-      {% if page.latest_posts and page.latest_posts.enabled %}
-        <h2 class="home-section-heading">
-          <a href="{{ '/blog/' | relative_url }}">Latest Posts</a>
-        </h2>
-        {% include latest_posts.liquid %}
-      {% endif %}
-
-      <!-- Selected papers -->
-      {% if page.selected_papers %}
-        <h2 id="publications" class="home-section-heading">
-          <a href="{{ '/publications/' | relative_url }}">Publications</a>
-        </h2>
+  <!-- ===================== All publications ===================== -->
+  {% if page.selected_papers %}
+    <section id="publications" class="landing-section landing-section-alt">
+      <h2 class="landing-section-title">Publications</h2>
+      <div class="landing-publications">
         {% include selected_papers.liquid %}
-      {% endif %}
-
-      {% if site.newsletter and site.newsletter.enabled and site.footer_fixed %}
-        {% include newsletter.liquid center=true %}
-      {% endif %}
-    </div>
-  </div>
+      </div>
+    </section>
+  {% endif %}
 </div>

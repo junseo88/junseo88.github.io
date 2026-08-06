@@ -24,40 +24,339 @@ $max-content-width: {{ site.max_width }};
   "tabler-icons/tabler-icons-outline.scss"
 ;
 
-/* ---- Custom homepage tweaks ---- */
-// Blue accent + bold for the "Recent News" / "Publications" section headings on the home page
-.home-section-heading {
-  font-weight: 700;
+/* =====================================================================
+   Home page redesign — layout & style benchmarked on smhanlab.com
+   (Hugo Blox "resume-biography" hero + card-based collection sections)
+   ===================================================================== */
+
+// Accent used across the landing page (links, tags, section accents)
+$landing-accent: #7b9fe0;
+$landing-accent-light: #9bb6ec;
+$landing-accent-lighter: #c2d2f4;
+
+// NOTE: keep every translucent white/grey slightly *tinted* (not pure white/grey).
+// The Sass compressor emits achromatic rgba() as `hsla(0,0,100%,.x)` (saturation
+// missing its `%`), which browsers reject — tinted colors compile to valid rgba().
+
+// Prevent the full-bleed sections from creating a horizontal scrollbar.
+// Applied to body (not html) so sticky elements keep working.
+body {
+  overflow-x: hidden;
 }
-.home-section-heading a {
-  color: #7b9fe0;
+
+/* ---- Full-bleed landing wrapper (breaks out of the centered container) ---- */
+.landing {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: -3rem; // cancel the container's `mt-5` so the hero sits under the navbar
+}
+
+/* ===================== Hero: biography ===================== */
+.landing-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 1.5rem;
+  color: #fff;
+  // Poster fallback: shows before the video loads, and when reduced motion is on
+  background: #06101d url('../img/ocean-poster.jpg') center / cover no-repeat;
+}
+
+.landing-hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Navy shade over the ocean video so the white text stays readable
+.landing-hero-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(3, 8, 24, 0.74) 0%,
+    rgba(3, 8, 24, 0.52) 45%,
+    rgba(3, 8, 24, 0.78) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-hero-video {
+    display: none;
+  }
+}
+
+.landing-hero-inner {
+  position: relative;
+  max-width: 62rem;
+  margin: 0 auto;
+  display: flex;
+  gap: 3.5rem;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* --- left column: avatar, name, affiliations, socials --- */
+.landing-profile {
+  flex: 0 0 15rem;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+img.landing-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #fff;
+  padding: 4px; // thin white ring, as on the benchmark site
+  margin-bottom: 1.2rem;
+}
+
+.landing-name {
+  font-size: 1.7rem;
   font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+  color: #fff;
+}
+
+.landing-role {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: rgba(235, 240, 255, 0.85);
+  margin-bottom: 0.6rem;
+}
+
+.landing-affiliation {
+  font-size: 0.95rem;
+  margin-bottom: 0.15rem;
+
+  a {
+    color: rgba(235, 240, 255, 0.75);
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+}
+
+.landing-social {
+  margin-top: 1rem;
+  font-size: 1.35rem;
+
+  a {
+    color: rgba(235, 240, 255, 0.85);
+    margin: 0 0.4rem;
+    &:hover {
+      color: $landing-accent-light;
+    }
+  }
+}
+
+/* --- right column: about-me prose, CV button, interests & education --- */
+.landing-bio {
+  flex: 0 1 40rem;
+  min-width: 0;
+}
+
+.landing-bio-heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.landing-bio-text {
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: rgba(235, 240, 255, 0.92);
+
+  p {
+    color: inherit;
+    margin-bottom: 0.9rem;
+  }
+  a {
+    color: $landing-accent-light;
+    &:hover {
+      color: $landing-accent-lighter;
+    }
+  }
+}
+
+// Outlined pill button, matching the "Download CV" button on the benchmark site
+a.landing-cv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #fff;
+  border: 1px solid rgba(235, 240, 255, 0.55);
+  border-radius: 0.5rem;
+  background: transparent;
+  transition: all 0.2s ease-in-out;
+
   &:hover {
-    color: #9bb6ec;
+    background: rgba(235, 240, 255, 0.15);
+    border-color: #fff;
+    color: #fff;
     text-decoration: none;
   }
 }
 
-// Taller news box on the home page so more items are visible at once
-.news .table-responsive.news-scroll {
-  max-height: 18rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: thin;
+.landing-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2.2rem;
 }
 
-// Wider vertical gap between the Recent News and Publications sections
-.about-main .news {
-  margin-bottom: 3rem;
+.landing-facts-heading {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(235, 240, 255, 0.65);
+  margin-bottom: 0.8rem;
 }
-.about-main h2#publications.home-section-heading {
-  margin-top: 1.25rem;
+
+ul.landing-interests {
+  list-style: disc;
+  padding-left: 1.2rem;
+  margin: 0;
+  color: rgba(235, 240, 255, 0.9);
+
+  li {
+    margin-bottom: 0.35rem;
+  }
 }
-// A little more vertical breathing room per news row
-.news table.table tr > th,
-.news table.table tr > td {
-  padding-top: 0.45rem;
-  padding-bottom: 0.45rem;
+
+ul.landing-education {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    gap: 0.7rem;
+    margin-bottom: 0.9rem;
+
+    i {
+      color: rgba(235, 240, 255, 0.55);
+      margin-top: 0.25rem;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.landing-edu-degree {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(235, 240, 255, 0.92);
+  line-height: 1.35;
+}
+
+.landing-edu-detail {
+  font-size: 0.85rem;
+  color: rgba(235, 240, 255, 0.6);
+  margin-top: 0.15rem;
+}
+
+/* ===================== Shared section shell ===================== */
+.landing-section {
+  padding: 4.5rem 1.5rem;
+  scroll-margin-top: 4rem; // keep anchors clear of the fixed navbar
+}
+
+// Slightly different background for alternating sections
+.landing-section-alt {
+  background: var(--global-code-bg-color, rgba(125, 127, 135, 0.06));
+}
+html[data-theme='dark'] .landing-section-alt {
+  background: rgba(235, 240, 255, 0.03);
+}
+
+.landing-section-title {
+  text-align: center;
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  color: var(--global-text-color);
+}
+
+.landing-section-more {
+  text-align: center;
+  margin-top: 1.5rem;
+
+  a {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $landing-accent;
+    &:hover {
+      color: $landing-accent-light;
+      text-decoration: none;
+    }
+  }
+}
+
+/* ===================== News: card list ===================== */
+.news-cards {
+  max-width: 46rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.news-card {
+  display: flex;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 1.1rem 1.5rem;
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--global-divider-color);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+  }
+}
+
+.news-card-date {
+  flex: 0 0 6.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--global-text-color-light);
+}
+
+.news-card-body {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--global-text-color);
+
+  a {
+    color: $landing-accent;
+    &:hover {
+      color: $landing-accent-light;
+    }
+  }
+}
+
+/* ===================== Full publications list ===================== */
+.landing-publications {
+  max-width: 56rem;
+  margin: 0 auto;
 }
 
 // Prominent (but grey) year headers in the publications / selected-papers list
@@ -91,146 +390,43 @@ $max-content-width: {{ site.max_width }};
   }
 }
 
+/* ===================== Misc ===================== */
 // Footer is intentionally emptied (no copyright line) — hide the empty bar
 footer.fixed-bottom,
 footer.sticky-bottom {
   display: none;
 }
 
-/* ===================== About: hero banner ===================== */
-// Prevent the 100vw hero from creating a horizontal scrollbar.
-// Applied to body (not html) so the sticky sidebar keeps working.
-body {
-  overflow-x: hidden;
-}
-
-.about-hero {
-  position: relative;
-  width: 100vw;
-  margin-left: calc(50% - 50vw); // full-bleed: break out of the centered container
-  margin-top: -3rem; // cancel the container's `mt-5` so the banner sits under the navbar
-  min-height: 40vh; // ~2/3 of the previous height
-  display: flex;
-  background-color: #15171a; // fallback while/if the image is missing
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.about-hero-overlay {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  // dark gradient so the title/text stay readable over any photo
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.85) 0%,
-    rgba(0, 0, 0, 0.6) 55%,
-    rgba(0, 0, 0, 0.35) 100%
-  );
-}
-
-.about-hero-inner {
-  width: 100%;
-  max-width: $max-content-width;
-  margin: 0 auto;
-  padding: 3rem 1.5rem; // tighter vertical padding for a shorter banner
-  color: #fff;
-}
-
-.about-hero-title {
-  font-size: 3rem;
-  line-height: 1.1;
-  margin-bottom: 0.6rem;
-  color: #fff;
-  font-weight: 700; // bold the full name (both first and last)
-}
-
-.about-hero-subtitle {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.82);
-  margin-bottom: 1.25rem;
-}
-
-.about-hero-intro {
-  max-width: 760px;
-  font-size: 1.05rem;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.92);
-
-  p {
-    color: inherit;
-  }
-  a {
-    color: #9bb6ec;
-    &:hover {
-      color: #c2d2f4;
-    }
-  }
-}
-
-// Higher specificity (a.about-hero-btn) so the pill border wins over Bootstrap's .btn border-color
-a.about-hero-btn {
-  display: inline-block;
-  margin-top: 1.6rem;
-  padding: 0.45rem 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  border-radius: 2rem;
-  color: #fff;
-  background: transparent;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: #fff !important;
-    color: #fff;
-    text-decoration: none;
-  }
-}
-
-/* ===================== About: two-column body ===================== */
-.about-body {
-  margin-top: 2.5rem;
-}
-
-.about-profile {
-  position: sticky;
-  top: 5rem;
-  text-align: center;
-
-  img {
-    max-width: 55%;
-    margin: 0 auto 1.1rem;
-  }
-
-  .more-info {
-    line-height: 1.55;
-    p {
-      margin-bottom: 0.2rem;
-    }
-  }
-
-  .about-social {
-    margin-top: 0.9rem;
-  }
-  .contact-icons {
-    font-size: 1.4rem;
-  }
-}
-
-// On small screens: stack profile on top, drop sticky + tighten the hero.
+/* ===================== Responsive ===================== */
 @media (max-width: 991px) {
-  .about-profile {
-    position: static;
-    margin-bottom: 2.5rem;
+  .landing-hero {
+    padding: 3.5rem 1.25rem;
   }
-  .about-profile img {
-    max-width: 45%;
+  .landing-hero-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
   }
-  .about-hero-inner {
-    padding: 3rem 1.25rem;
+  .landing-profile {
+    flex: none;
+    margin-top: 0;
   }
-  .about-hero-title {
-    font-size: 2.2rem;
+  .landing-bio {
+    flex: none;
+    max-width: 40rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .landing-facts {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .news-card {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .news-card-date {
+    flex: none;
   }
 }

@@ -2,34 +2,45 @@
 layout: about
 title: about
 permalink: /
-subtitle:
 
-# Hero banner (top full-width section). Replace `hero_image` with your own banner photo in assets/img/.
-hero_image: background.png
-hero_button: Publications ↓
-hero_button_link: "#publications"
+# ---- Hero (dark biography section, styled after Hugo Blox "resume-biography") ----
+# Looping ocean-wave background video (Mixkit free license) with a navy shade on top.
+hero_video: /assets/video/ocean-waves.mp4
+hero_poster: /assets/img/ocean-poster.jpg
 
 profile:
-  align: left
   image: profile.jpg
-  image_circular: true # crops the image to make it circular
-  more_info: >
-    <p><strong>Junseo Bang</strong></p>
-    <p>Ph.D. Student @ <a href="https://icl.snu.ac.kr/">SNU ICL</a></p>
-    <p>📍 Seoul, South Korea</p>
+  role: Ph.D. Candidate
+  affiliations:
+    - name: Intelligent Computational Imaging Lab
+      url: https://icl.snu.ac.kr/
+    - name: Seoul National University
+      url: https://en.snu.ac.kr/
 
-selected_papers: true # includes a list of papers marked as "selected={true}"
-social: true # includes social icons at the bottom of the page
+cv_button:
+  text: Download CV
+  url: /assets/pdf/JunseoBang_CV.pdf
+
+interests:
+  - Computational Imaging
+  - Inverse Problems
+  - Generative Models
+  - Metasurfaces & Nano-Optics
+
+education:
+  - degree: Ph.D. in Electrical and Computer Engineering
+    institution: Seoul National University
+    year: 2021 – present
+  - degree: B.S. in Electrical and Computer Engineering
+    institution: Seoul National University
+    year: 2016 – 2021
+
+selected_papers: true # includes the full list of papers marked as "selected={true}"
+social: true # includes social icons under the profile
 
 announcements:
   enabled: true # includes a list of news items
-  scrollable: true # adds a vertical scroll bar if there are more than 3 news items
-  limit: # leave blank to include all the news in the `_news` folder
-
-latest_posts:
-  enabled: false
-  scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
-  limit: 3 # leave blank to include all the blog posts
+  limit: 6 # number of news cards on the home page (the rest are on /news/)
 ---
 
 Hi! I am a Ph.D. candidate working at the intersection of optical imaging and generative AI.
@@ -41,7 +52,6 @@ advanced imaging systems with nanophotonic/metasurface technologies (advisors: P
 [Yoonchan Jeong](http://oeqelab.snu.ac.kr/PROFJ),
 [Optical Engineering and Quantum Electronics Lab](http://oeqelab.snu.ac.kr/)).
 
-<p style="margin-top: 1.2rem; padding-left: 12px; border-left: 3px solid #888; font-size: 1.03rem;">
-💡 Research interest: closing the gap between optical system design and learned signal reconstruction,
-developing next-generation intelligent imaging systems that integrate physics and machine intelligence.
-</p>
+💡 My research interest is closing the gap between optical system design and learned signal
+reconstruction, developing next-generation intelligent imaging systems that integrate physics
+and machine intelligence.
