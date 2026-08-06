@@ -52,6 +52,6 @@ advanced imaging systems with nanophotonic/metasurface technologies (advisors: P
 [Yoonchan Jeong](http://oeqelab.snu.ac.kr/PROFJ),
 [Optical Engineering and Quantum Electronics Lab](http://oeqelab.snu.ac.kr/)).
 
-💡 My research interest is closing the gap between optical system design and learned signal
+💡 My research interest is bridging the gap between optical system design and learned signal
 reconstruction, developing next-generation intelligent imaging systems that integrate physics
 and machine intelligence.

@@ -99,7 +99,8 @@ body {
 
 /* --- left column: avatar, name, affiliations, socials --- */
 .landing-profile {
-  flex: 0 0 15rem;
+  // Wide enough that "Intelligent Computational Imaging Lab" stays on one line
+  flex: 0 0 17rem;
   text-align: center;
   margin-top: 1.5rem;
 }
@@ -132,6 +133,7 @@ img.landing-avatar {
 .landing-affiliation {
   font-size: 0.95rem;
   margin-bottom: 0.15rem;
+  white-space: nowrap;
 
   a {
     color: rgba(235, 240, 255, 0.75);
