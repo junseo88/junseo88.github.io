@@ -23,6 +23,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/publications/";
           },
+        },{id: "nav-photos",
+          title: "photos",
+          description: "Photographs by Junseo Bang. Click a photo to view it in full resolution.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/photos/";
+          },
         },{id: "post-a-post-with-plotly-js",
         
           title: "a post with plotly.js",
