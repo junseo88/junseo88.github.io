@@ -9,7 +9,7 @@ description: My curriculum vitae. You can view it below or download the PDF.
 
 <div class="text-center mb-4">
   <a
-    href="{{ '/assets/pdf/JunseoBang_CV.pdf' | relative_url }}"
+    href="{{ '/assets/pdf/JunseoBang_CV.pdf' | relative_url | bust_file_cache }}"
     target="_blank"
     rel="noopener noreferrer"
     class="btn btn-sm z-depth-0"
@@ -20,11 +20,11 @@ description: My curriculum vitae. You can view it below or download the PDF.
 </div>
 
 <iframe
-  src="{{ '/assets/pdf/JunseoBang_CV.pdf' | relative_url }}"
+  src="{{ '/assets/pdf/JunseoBang_CV.pdf' | relative_url | bust_file_cache }}"
   title="Junseo Bang — CV"
   width="100%"
   style="height: 90vh; min-height: 600px; border: 1px solid var(--global-divider-color);"
 >
   This browser does not support embedded PDFs.
-  <a href="{{ '/assets/pdf/JunseoBang_CV.pdf' | relative_url }}">Download the PDF</a> instead.
+  <a href="{{ '/assets/pdf/JunseoBang_CV.pdf' | relative_url | bust_file_cache }}">Download the PDF</a> instead.
 </iframe>
