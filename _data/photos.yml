@@ -32,6 +32,16 @@
   height: 2000
   caption: Los Glaciares National Park, Argentina
 
+- file: niagara-rainbow.webp
+  width: 1280
+  height: 1026
+  caption: A double rainbow seen on a Niagara Falls boat tour
+
+- file: niagara-falls.webp
+  width: 1280
+  height: 1190
+  caption: Niagara Falls, seen from the Canadian side
+
 - file: microscope.jpg
   width: 1500
   height: 2000
@@ -40,9 +50,9 @@
 - file: bom-1.jpg
   width: 1500
   height: 2000
-  caption: Bom
+  caption: Bom, my lovely dog
 
 - file: bom-2.jpg
   width: 1500
   height: 2000
-  caption: Bom
+  caption: My lovely Bom, all tucked in
