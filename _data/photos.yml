@@ -1,0 +1,33 @@
+# Photo gallery shown on /photos/ (rendered by _pages/photos.md).
+#
+# To add a photo:
+#   1. Put the original JPEG in assets/img/photos/ (do not resize or re-compress it;
+#      the build generates the smaller WebP thumbnails automatically).
+#   2. Add an entry below. Order here = order on the page.
+#      width / height are the pixel size of the file (`identify file.jpg` prints them).
+#      caption appears in the full-screen viewer; leave it empty to show none.
+
+- file: atacama.jpg
+  width: 1500
+  height: 2000
+  caption: Atacama Desert, Chile
+
+- file: uyuni-dusk.jpg
+  width: 2000
+  height: 1500
+  caption: Salar de Uyuni, Bolivia
+
+- file: titicaca.jpg
+  width: 1125
+  height: 1500
+  caption: Copacabana, Lake Titicaca, Bolivia
+
+- file: uyuni-sunset.jpg
+  width: 2000
+  height: 1500
+  caption: Salar de Uyuni, Bolivia
+
+- file: glacier.jpg
+  width: 2000
+  height: 2000
+  caption: Los Glaciares National Park, Argentina

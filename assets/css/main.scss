@@ -392,6 +392,84 @@ html[data-theme='dark'] .landing-section-alt {
   }
 }
 
+/* ===================== Photos: justified gallery ===================== */
+// Benchmarked on junyonglee.me/photos: rows of equal height spanning the full width, click to
+// open a full-resolution viewer. Unlike the benchmark, photos keep their full frame (no crop).
+// assets/js/photo-gallery.js sizes every photo (.is-justified); the flex rules are the no-JS fallback.
+.photo-gallery {
+  --photo-gap: 4px;
+  --photo-row-h: clamp(150px, 30vh, 340px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--photo-gap);
+  margin-top: 0.5rem;
+
+  // Fallback only: soak up the free space so the last row is not stretched
+  &::after {
+    content: "";
+    flex-grow: 10000;
+  }
+  &.is-justified::after {
+    display: none;
+  }
+}
+
+.photo-item {
+  position: relative;
+  display: block;
+  flex: var(--ar) 1 calc(var(--ar) * var(--photo-row-h));
+  aspect-ratio: var(--ar);
+  overflow: hidden;
+  background: rgba(125, 135, 160, 0.12); // placeholder while the image loads
+  cursor: zoom-in;
+
+  .is-justified & {
+    flex: none;
+    aspect-ratio: auto;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition:
+      transform 0.35s ease,
+      filter 0.35s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.03);
+    filter: brightness(1.08);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $landing-accent;
+    outline-offset: 2px;
+  }
+}
+
+// Caption in the full-screen viewer (PhotoSwipe UI element registered in photo-gallery.js)
+.pswp__photo-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  max-width: calc(100% - 2rem);
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(10, 14, 28, 0.6);
+  color: #e9edf7;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+  pointer-events: none;
+
+  &:empty {
+    display: none;
+  }
+}
+
 /* ===================== Misc ===================== */
 // Footer is intentionally emptied (no copyright line) — hide the empty bar
 footer.fixed-bottom,
