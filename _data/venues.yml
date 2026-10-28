@@ -1,9 +1,25 @@
-"AJP":
-  url: https://aapt.scitation.org/journal/ajp
-  color: "#00369f"
-
-"PhysRev":
-  url: https://journals.aps.org/
-
-"Vision":
-  color: "#009f36"
+# Venue tag colours for the publication cards (_layouts/bib.liquid). Keys are the bib `abbr` without its
+# year ("NeurIPS 2026" -> "NeurIPS"); a venue missing here gets grey. All colours keep white tag text
+# at >= 4.5:1 contrast.
+"NeurIPS":
+  color: "#7c3aed"
+"ICML":
+  color: "#047857"
+"ICLR":
+  color: "#2563eb"
+"CVPR":
+  color: "#dc2626"
+"ICCV":
+  color: "#b45309"
+"ECCV":
+  color: "#0e7490"
+"AAAI":
+  color: "#4338ca"
+"arXiv":
+  color: "#6b7280"
+"ACS Photonics":
+  color: "#c2410c"
+"Nano Letters":
+  color: "#0f766e"
+"Science Advances":
+  color: "#b91c1c"

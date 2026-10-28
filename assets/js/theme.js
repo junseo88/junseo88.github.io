@@ -251,10 +251,10 @@ let transTheme = () => {
   }, 500);
 };
 
-// Dark-mode only: the site is locked to the dark theme, so this always
-// resolves to "dark" regardless of localStorage or system preference.
+// Light-mode only: the site is locked to the light theme (white background), so this
+// always resolves to "light" regardless of localStorage or system preference.
 let determineThemeSetting = () => {
-  return "dark";
+  return "light";
 };
 
 // Determine the computed theme, which can be "dark" or "light". If the theme setting is
@@ -278,7 +278,7 @@ let initTheme = () => {
 
   setThemeSetting(themeSetting);
 
-  // Add event listener to the theme toggle button (removed in dark-only mode,
+  // Add event listener to the theme toggle button (removed in light-only mode,
   // so guard against it being absent).
   document.addEventListener("DOMContentLoaded", function () {
     const mode_toggle = document.getElementById("light-toggle");

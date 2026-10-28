@@ -38,6 +38,33 @@ $landing-accent-lighter: #c2d2f4;
 // The Sass compressor emits achromatic rgba() as `hsla(0,0,100%,.x)` (saturation
 // missing its `%`), which browsers reject — tinted colors compile to valid rgba().
 
+// Light is the default theme (assets/js/theme.js). al-folio's light accent is magenta and its code /
+// alternate-section background is tinted with it, so use a blue accent and a neutral grey instead.
+// Links outside the (always dark) hero read their colour from --landing-link.
+:root {
+  --global-theme-color: #2563eb;
+  --global-hover-color: #2563eb;
+  --global-code-bg-color: #f6f7f9;
+  --landing-link: #2563eb;
+  --landing-link-hover: #1d4ed8;
+  --landing-card-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --landing-card-shadow-hover: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --pub-border: #e5e7eb;
+  --pub-thumb-bg: #f3f4f6;
+  --pub-text-2: #4a4a4a;
+  --pub-highlight: #c84860;
+}
+html[data-theme='dark'] {
+  --landing-link: #{$landing-accent};
+  --landing-link-hover: #{$landing-accent-light};
+  --landing-card-shadow: 0 2px 8px rgba(2, 6, 20, 0.18);
+  --landing-card-shadow-hover: 0 6px 16px rgba(2, 6, 20, 0.28);
+  --pub-border: rgba(235, 240, 255, 0.12);
+  --pub-thumb-bg: rgba(235, 240, 255, 0.06);
+  --pub-text-2: rgba(235, 240, 255, 0.72);
+  --pub-highlight: #f08ba0;
+}
+
 // Prevent the full-bleed sections from creating a horizontal scrollbar.
 // Applied to body (not html) so sticky elements keep working.
 body {
@@ -233,6 +260,7 @@ ul.landing-interests {
   color: rgba(235, 240, 255, 0.9);
 
   li {
+    color: inherit; // _base.scss colours every li with the page text colour (black in light mode)
     margin-bottom: 0.35rem;
   }
 }
@@ -297,9 +325,9 @@ html[data-theme='dark'] .landing-section-alt {
   a {
     font-size: 0.95rem;
     font-weight: 600;
-    color: $landing-accent;
+    color: var(--landing-link);
     &:hover {
-      color: $landing-accent-light;
+      color: var(--landing-link-hover);
       text-decoration: none;
     }
   }
@@ -322,14 +350,14 @@ html[data-theme='dark'] .landing-section-alt {
   background: var(--global-card-bg-color);
   border: 1px solid var(--global-divider-color);
   border-radius: 0.75rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--landing-card-shadow);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+    box-shadow: var(--landing-card-shadow-hover);
   }
 }
 
@@ -348,9 +376,9 @@ html[data-theme='dark'] .landing-section-alt {
   color: var(--global-text-color);
 
   a {
-    color: $landing-accent;
+    color: var(--landing-link);
     &:hover {
-      color: $landing-accent-light;
+      color: var(--landing-link-hover);
     }
   }
 }
@@ -361,34 +389,156 @@ html[data-theme='dark'] .landing-section-alt {
   margin: 0 auto;
 }
 
-// Prominent (but grey) year headers in the publications / selected-papers list
-.publications h2.bibliography {
-  color: #9aa0a6; // grey year label
-  font-size: 1.7rem;
-  font-weight: 700;
-  text-align: left;
-  border-top: none;
-  border-bottom: 2px solid #6a6e73; // grey underline
-  padding-top: 0;
-  padding-bottom: 0.3rem;
-  margin: 2rem 0 1.2rem;
+/* ===================== Publications: card list ===================== */
+// Benchmarked on hutaihang.github.io: one bordered card per paper, 4:3 thumbnail on the left and
+// title / venue tag / authors / plain-text links on the right (markup in _layouts/bib.liquid).
+// Thumbnails are prepared at exactly 4:3, so object-fit: cover never crops them.
+.publications {
+  .pub-equal-note {
+    font-size: 0.9rem;
+    color: var(--global-text-color-light);
+    margin-bottom: 1rem;
+  }
+
+  ol.bibliography {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+
+    li {
+      margin-bottom: 0;
+    }
+  }
 }
 
-// Publication entries: bold the author's own name, and slightly larger titles
-.publications {
-  .author .author-self {
+.pub-card {
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr);
+  gap: 1.1rem;
+  padding: 0.9rem;
+  background: var(--global-card-bg-color);
+  border: 1px solid var(--pub-border);
+  border-radius: 10px;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    box-shadow: var(--landing-card-shadow-hover);
+    transform: translateY(-1px);
+  }
+
+  &.no-thumb {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.pub-thumb {
+  align-self: start; // a stretched grid row (e.g. BibTeX open) would otherwise widen the 4:3 box
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--pub-border);
+  background: var(--pub-thumb-bg);
+
+  figure,
+  picture {
+    display: block;
+    height: 100%;
+    margin: 0;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.pub-content {
+  min-width: 0;
+}
+
+.pub-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 0.4rem;
+
+  a {
+    color: var(--global-text-color);
+    &:hover {
+      color: var(--landing-link);
+      text-decoration: none;
+    }
+  }
+}
+
+.pub-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  margin-bottom: 0.45rem;
+}
+
+.venue-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.pub-highlight {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--pub-highlight);
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+.publications ol.bibliography li .pub-authors {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--pub-text-2);
+  margin-bottom: 0.4rem;
+
+  .author-self {
+    color: var(--global-text-color);
     font-weight: 700;
-    font-style: normal;
   }
-  .title {
-    font-size: 1.18rem;
-  }
-  // Venue label (full name) above each figure — one step larger
-  .abbr abbr.badge {
-    font-size: 0.92rem;
-    padding: 0.35em 0.5em;
-    line-height: 1.25;
-    white-space: normal; // allow long names like "Science Advances" to wrap
+}
+
+.pub-note-line {
+  font-size: 0.88rem;
+  color: var(--global-text-color-light);
+  margin-bottom: 0.4rem;
+}
+
+.pub-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.9rem;
+  font-size: 0.95rem;
+
+  // :not() raises specificity over Bootstrap's a:not([href]) reset (the BibTeX toggle has no href)
+  a,
+  a:not([href]):not([tabindex]) {
+    color: var(--landing-link);
+    cursor: pointer;
+    &:hover {
+      color: var(--landing-link-hover);
+      text-decoration: underline;
+    }
   }
 }
 
@@ -444,7 +594,7 @@ html[data-theme='dark'] .landing-section-alt {
   }
 
   &:focus-visible {
-    outline: 2px solid $landing-accent;
+    outline: 2px solid var(--landing-link);
     outline-offset: 2px;
   }
 }
@@ -508,5 +658,14 @@ footer.sticky-bottom {
   }
   .news-card-date {
     flex: none;
+  }
+  // Publication cards stack: thumbnail on top, at most phone width
+  .pub-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  .pub-thumb {
+    width: 100%;
+    max-width: 22rem;
   }
 }

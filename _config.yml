@@ -285,7 +285,7 @@ scholar:
   details_link: Details
 
   query: "@*"
-  group_by: year
+  group_by: none # flat card list (the venue tag carries the year)
   group_order: descending
 
 # Display different badges withs stats for your publications
@@ -311,6 +311,7 @@ filtered_bibtex_keywords:
     blog,
     code,
     google_scholar_id,
+    highlight,
     html,
     inspirehep_id,
     pdf,
