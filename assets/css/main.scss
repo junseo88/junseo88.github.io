@@ -38,9 +38,9 @@ $landing-accent-lighter: #c2d2f4;
 // The Sass compressor emits achromatic rgba() as `hsla(0,0,100%,.x)` (saturation
 // missing its `%`), which browsers reject — tinted colors compile to valid rgba().
 
-// Light is the default theme (assets/js/theme.js). al-folio's light accent is magenta and its code /
-// alternate-section background is tinted with it, so use a blue accent and a neutral grey instead.
-// Links outside the (always dark) hero read their colour from --landing-link.
+// Dark is the default theme; the navbar toggle switches to light (assets/js/theme.js). In light mode,
+// al-folio's accent is magenta and its code / alternate-section background is tinted with it, so use a
+// blue accent and a neutral grey instead. Links outside the (always dark) hero read --landing-link.
 :root {
   --global-theme-color: #2563eb;
   --global-hover-color: #2563eb;
@@ -621,6 +621,21 @@ html[data-theme='dark'] .landing-section-alt {
 }
 
 /* ===================== Misc ===================== */
+// Navbar theme toggle (_includes/header.liquid) shows the theme a click switches to: a sun on the dark
+// default, a moon in light mode. Offsets match al-folio's original toggle icons.
+#light-toggle {
+  .theme-icon-to-light,
+  .theme-icon-to-dark {
+    display: none;
+    padding-left: 10px;
+    padding-top: 12px;
+  }
+}
+html[data-theme-setting='dark'] #light-toggle .theme-icon-to-light,
+html[data-theme-setting='light'] #light-toggle .theme-icon-to-dark {
+  display: block;
+}
+
 // Footer is intentionally emptied (no copyright line) — hide the empty bar
 footer.fixed-bottom,
 footer.sticky-bottom {

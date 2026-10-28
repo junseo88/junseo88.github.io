@@ -1,21 +1,22 @@
 // Has to be in the head tag, otherwise a flicker effect will occur.
 
-// Toggle through light, dark, and system theme settings.
+// The navbar toggle switches between the dark (default) and light themes. Only an explicit click is
+// remembered, under its own key: the old "theme" key holds values forced by the earlier dark-only and
+// light-only versions of this file, not visitors' choices, so it is ignored.
+const THEME_CHOICE_KEY = "theme-choice";
+
 let toggleThemeSetting = () => {
-  let themeSetting = determineThemeSetting();
-  if (themeSetting == "system") {
-    setThemeSetting("light");
-  } else if (themeSetting == "light") {
-    setThemeSetting("dark");
-  } else {
-    setThemeSetting("system");
+  let themeSetting = determineThemeSetting() == "dark" ? "light" : "dark";
+  try {
+    localStorage.setItem(THEME_CHOICE_KEY, themeSetting);
+  } catch (e) {
+    // Storage blocked (e.g. private mode): the switch still applies to this page.
   }
+  setThemeSetting(themeSetting);
 };
 
 // Change the theme setting and apply the theme.
 let setThemeSetting = (themeSetting) => {
-  localStorage.setItem("theme", themeSetting);
-
   document.documentElement.setAttribute("data-theme-setting", themeSetting);
 
   applyTheme();
@@ -251,10 +252,18 @@ let transTheme = () => {
   }, 500);
 };
 
-// Light-mode only: the site is locked to the light theme (white background), so this
-// always resolves to "light" regardless of localStorage or system preference.
+// Determine the theme setting, "dark" or "light": the visitor's last toggle choice, else dark.
 let determineThemeSetting = () => {
-  return "light";
+  let themeSetting = null;
+  try {
+    themeSetting = localStorage.getItem(THEME_CHOICE_KEY);
+  } catch (e) {
+    // Storage blocked: fall back to the default.
+  }
+  if (themeSetting != "dark" && themeSetting != "light") {
+    themeSetting = "dark";
+  }
+  return themeSetting;
 };
 
 // Determine the computed theme, which can be "dark" or "light". If the theme setting is
@@ -278,8 +287,7 @@ let initTheme = () => {
 
   setThemeSetting(themeSetting);
 
-  // Add event listener to the theme toggle button (removed in light-only mode,
-  // so guard against it being absent).
+  // Add event listener to the theme toggle button (guard against it being absent).
   document.addEventListener("DOMContentLoaded", function () {
     const mode_toggle = document.getElementById("light-toggle");
 

@@ -125,7 +125,15 @@
               </button>
             </li>
           {% endif %}
-          {% comment %} Light-mode only: theme toggle removed (site is locked to light). {% endcomment %}
+          {% if site.enable_darkmode %}
+            <!-- Theme toggle: dark is the default; the icon shows the theme a click switches to -->
+            <li class="toggle-container">
+              <button id="light-toggle" aria-label="Switch between dark and light mode">
+                <i class="ti ti-sun-filled theme-icon-to-light" title="Switch to light mode"></i>
+                <i class="ti ti-moon-filled theme-icon-to-dark" title="Switch to dark mode"></i>
+              </button>
+            </li>
+          {% endif %}
         </ul>
       </div>
     </div>
