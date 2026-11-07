@@ -2,18 +2,26 @@
 ---
 {% comment %}
   Publication card, benchmarked on hutaihang.github.io: 4:3 thumbnail on the left; title (linked to the
-  paper), venue tag, authors and plain-text links on the right. The venue tag colour comes from
-  _data/venues.yml, keyed by the abbr without its year ("NeurIPS 2026" -> "NeurIPS").
+  paper), venue line, authors and plain-text links on the right. The venue line prints the official name
+  from _data/venues.yml (keyed by the abbr without its year, "NeurIPS 2026" -> "NeurIPS") followed by the
+  abbreviation in bold, as on junyonglee.me: "Advances in Neural Information Processing Systems (NeurIPS), 2026".
+  If the official name contains the abbreviation ("ACS Photonics", "arXiv preprint"), it is bolded in place.
 {% endcomment %}
 {%- assign entry_year = entry.year | append: '' -%}
 {%- assign venue_name = entry.abbr | remove: entry_year | strip -%}
-{%- assign venue_tag = entry.abbr -%}
-{%- unless entry.abbr contains entry_year -%}
-  {%- assign venue_tag = entry.abbr | append: ' ' | append: entry_year -%}
-{%- endunless -%}
-{%- assign venue_color = '#6b7280' -%}
-{%- if site.data.venues[venue_name].color -%}
-  {%- assign venue_color = site.data.venues[venue_name].color -%}
+{%- assign venue_full = site.data.venues[venue_name].name -%}
+{%- if venue_full == nil or venue_full == '' -%}
+  {%- assign venue_full = entry.booktitle | default: entry.journal | default: '' -%}
+  {%- assign venue_paren = '(' | append: venue_name | append: ')' -%}
+  {%- assign venue_full = venue_full | remove: venue_paren | strip -%}
+{%- endif -%}
+{%- assign venue_bold = '<strong>' | append: venue_name | append: '</strong>' -%}
+{%- if venue_full == '' -%}
+  {%- assign venue_html = venue_bold -%}
+{%- elsif venue_full contains venue_name -%}
+  {%- assign venue_html = venue_full | replace_first: venue_name, venue_bold -%}
+{%- else -%}
+  {%- assign venue_html = venue_full | append: ' (' | append: venue_bold | append: ')' -%}
 {%- endif -%}
 
 {%- assign paper_url = null -%}
@@ -68,10 +76,10 @@
       {%- endif -%}
     </div>
 
-    <!-- Venue tag and highlights -->
+    <!-- Venue (official name + bold abbreviation) and highlights -->
     <div class="pub-tags">
       {%- if entry.abbr -%}
-        <span class="venue-tag" style="background-color: {{ venue_color }}">{{ venue_tag }}</span>
+        <span class="pub-venue"><em>{{ venue_html }}</em>, {{ entry_year }}</span>
       {%- endif -%}
       {%- if entry.award -%}
         <a class="award pub-highlight" role="button">

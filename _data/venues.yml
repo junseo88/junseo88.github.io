@@ -1,25 +1,27 @@
-# Venue tag colours for the publication cards (_layouts/bib.liquid). Keys are the bib `abbr` without its
-# year ("NeurIPS 2026" -> "NeurIPS"); a venue missing here gets grey. All colours keep white tag text
-# at >= 4.5:1 contrast.
+# Official venue names for the publication cards (_layouts/bib.liquid). Keys are the bib `abbr` without its
+# year ("NeurIPS 2026" -> "NeurIPS"). A card prints the official name, then the abbreviation in bold:
+#   Advances in Neural Information Processing Systems (NeurIPS), 2026
+# When the official name already contains the abbreviation ("ACS Photonics", "arXiv preprint"), that part is
+# bolded in place instead. A venue missing here falls back to the entry's booktitle / journal.
 "NeurIPS":
-  color: "#7c3aed"
+  name: "Advances in Neural Information Processing Systems"
 "ICML":
-  color: "#047857"
+  name: "International Conference on Machine Learning"
 "ICLR":
-  color: "#2563eb"
+  name: "International Conference on Learning Representations"
 "CVPR":
-  color: "#dc2626"
+  name: "IEEE/CVF Conference on Computer Vision and Pattern Recognition"
 "ICCV":
-  color: "#b45309"
+  name: "IEEE/CVF International Conference on Computer Vision"
 "ECCV":
-  color: "#0e7490"
+  name: "European Conference on Computer Vision"
 "AAAI":
-  color: "#4338ca"
+  name: "AAAI Conference on Artificial Intelligence"
 "arXiv":
-  color: "#6b7280"
+  name: "arXiv preprint"
 "ACS Photonics":
-  color: "#c2410c"
+  name: "ACS Photonics"
 "Nano Letters":
-  color: "#0f766e"
+  name: "Nano Letters"
 "Science Advances":
-  color: "#b91c1c"
+  name: "Science Advances"

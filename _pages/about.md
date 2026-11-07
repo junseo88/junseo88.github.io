@@ -39,8 +39,7 @@ selected_papers: true # includes the full list of papers marked as "selected={tr
 social: true # includes social icons under the profile
 
 announcements:
-  enabled: true # includes a list of news items
-  limit: 6 # number of news cards on the home page (the rest are on /news/)
+  enabled: true # all news items, in a fixed-height scroll box (_includes/news.liquid)
 ---
 
 Hi! I am a Ph.D. candidate working at the intersection of optical imaging and generative AI.

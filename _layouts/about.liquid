@@ -101,36 +101,7 @@ layout: default
   {% if page.announcements and page.announcements.enabled %}
     <section id="news" class="landing-section">
       <h2 class="landing-section-title">News</h2>
-      {% if site.news != blank %}
-        <div class="news-cards">
-          {% assign news = site.news | reverse %}
-          {% if page.announcements.limit %}
-            {% assign news_limit = page.announcements.limit %}
-          {% else %}
-            {% assign news_limit = site.news | size %}
-          {% endif %}
-          {% for item in news limit: news_limit %}
-            <div class="news-card">
-              <div class="news-card-date">{{ item.date | date: '%b %d, %Y' }}</div>
-              <div class="news-card-body">
-                {% if item.inline %}
-                  {{ item.content | remove: '<p>' | remove: '</p>' | emojify }}
-                {% else %}
-                  <a class="news-title" href="{{ item.url | relative_url }}">{{ item.title }}</a>
-                {% endif %}
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-        {% assign news_size = site.news | size %}
-        {% if page.announcements.limit and news_size > page.announcements.limit %}
-          <div class="landing-section-more">
-            <a href="{{ '/news/' | relative_url }}">All news &rarr;</a>
-          </div>
-        {% endif %}
-      {% else %}
-        <p class="text-center">No news so far...</p>
-      {% endif %}
+      {% include news.liquid scroll=true %}
     </section>
   {% endif %}
 

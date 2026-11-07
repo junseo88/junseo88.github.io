@@ -1,30 +1,53 @@
+{% comment %}
+  Compact news list, benchmarked on junyonglee.me "Recent News": one row per item, a small month/year
+  badge on the left and the text on the right. include.scroll wraps the list in a fixed-height box that
+  scrolls (home page); the full date stays in the <time> element's datetime/title.
+{% endcomment %}
 <div class="news">
   {% if site.news != blank %}
+    {% assign news = site.news | reverse %}
     {% assign news_size = site.news | size %}
-    <div
-      class="table-responsive{% if include.limit and page.announcements.scrollable and news_size > 3 %} news-scroll{% endif %}"
-    >
-      <table class="table table-sm table-borderless">
-        {% assign news = site.news | reverse %}
-        {% if include.limit and page.announcements.limit %}
-          {% assign news_limit = page.announcements.limit %}
-        {% else %}
-          {% assign news_limit = news_size %}
-        {% endif %}
+    {% if include.limit and page.announcements.limit %}
+      {% assign news_limit = page.announcements.limit %}
+    {% else %}
+      {% assign news_limit = news_size %}
+    {% endif %}
+    <div class="news-box{% if include.scroll %} news-scroll{% endif %}">
+      <ul class="news-list">
         {% for item in news limit: news_limit %}
-          <tr>
-            <th scope="row" style="width: 20%">{{ item.date | date: '%b %d, %Y' }}</th>
-            <td>
+          <li>
+            <time class="news-date" datetime="{{ item.date | date: '%Y-%m-%d' }}" title="{{ item.date | date: '%b %d, %Y' }}">
+              {{- item.date | date: '%b %Y' -}}
+            </time>
+            <div class="news-text">
               {% if item.inline %}
                 {{ item.content | remove: '<p>' | remove: '</p>' | emojify }}
               {% else %}
                 <a class="news-title" href="{{ item.url | relative_url }}">{{ item.title }}</a>
               {% endif %}
-            </td>
-          </tr>
+            </div>
+          </li>
         {% endfor %}
-      </table>
+      </ul>
     </div>
+    {% if include.scroll %}
+      <script>
+        // Fade the edge of the box that still has news beyond it (top once scrolled, bottom until the end).
+        (function () {
+          var box = document.currentScript.parentNode.querySelector('.news-scroll');
+          if (!box) return;
+          function update() {
+            var max = box.scrollHeight - box.clientHeight;
+            box.classList.toggle('fade-top', max > 1 && box.scrollTop > 1);
+            box.classList.toggle('fade-bottom', max > 1 && box.scrollTop < max - 1);
+          }
+          box.addEventListener('scroll', update, { passive: true });
+          window.addEventListener('resize', update);
+          window.addEventListener('load', update);
+          update();
+        })();
+      </script>
+    {% endif %}
   {% else %}
     <p>No news so far...</p>
   {% endif %}
