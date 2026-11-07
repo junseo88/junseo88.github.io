@@ -518,12 +518,11 @@ html[data-theme='dark'] .landing-section-alt {
   margin-bottom: 0.45rem;
 }
 
-// Venue line: official name with the abbreviation in bold, then the year (as on junyonglee.me), set in a
-// book serif in the plain text colour (no coloured tag).
+// Venue line: official name in italics with the abbreviation in bold, then the year (as on junyonglee.me).
+// Same font family and size as the author line, in the plain text colour (no coloured tag).
 .pub-venue {
-  font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-  font-size: 1rem;
-  line-height: 1.4;
+  font-size: 0.95rem;
+  line-height: 1.5;
   color: var(--global-text-color);
 
   em {
